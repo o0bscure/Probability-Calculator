@@ -16,6 +16,18 @@ class Hat:
             for i in range(v):
                 #adds each ball indiviually to the content list (by appending the key(color) for value(amount))
                 self.contents.append(k)
+                
+    def draw(self,balls=int):
+        self.balls = balls
+        #return false if the required numberof balls to draw is greater than the number of the contents inthe hat
+        if self.balls > len(self.contents):
+            return False
+        else:
+            #shuffle the hat's contents
+            random.shuffle(self.contents)
+            #remove random element from the contents list for the amouts of balls to draw.
+            for item in range(balls):
+                self.contents.pop(random.randint(0,len(self.contents)-1))
             
     #represent the object's dictionary when printing the object         
     def __repr__(self):
@@ -35,6 +47,6 @@ hat2 = Hat(red=5, orange=4)
 hat3 = Hat(red=5, orange=4, black=1, blue=0, pink=2, striped=9)
 
 print(hat1.contents)
-print(hat1)
-#print(hat2)
-#print(hat3)
+hat1.draw(5)
+print(hat1.contents)
+
