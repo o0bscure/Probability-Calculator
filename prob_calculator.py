@@ -29,14 +29,14 @@ class Hat:
             #remove random element from the contents list for the amouts of balls to draw.
             #need a way to keep track of the balls drawn (result) for each expirement
             self.result = []
-            for item in range(balls):
-                self.temp_lst.pop(random.randint(0,len(self.temp_lst)-1))
+            for i in range(balls):
+                #pick a randome index to remove an item from the hat
+                random_index = random.randint(0,len(self.temp_lst)-1)
+                #add that item to the results list
+                self.result.append(self.temp_lst[random_index])
+                #remove that item from the hat
+                self.temp_lst.pop(random_index)
                 
-                #print(self.result)
-                #print(self.contents)
-                
-                
-            
     #represent the object's dictionary when printing the object         
     def __repr__(self):
         output= ""
@@ -47,7 +47,8 @@ class Hat:
     
     
 
-def experiment(hat, expected_balls, num_balls_drawn, num_experiments): 
+def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
+    #need to check if the desired balls exist in the results after each draw(), keep track of how many times you got the desired result(M?) 
     for experiment in range(num_experiments):
         #probability = (hat.dictionary["red"]+hat.dictionary["green"]) / len(hat.contents)
         hat.draw(num_balls_drawn)
@@ -63,8 +64,8 @@ hat3 = Hat(red=5, orange=4, black=1, blue=0, pink=2, striped=9)
                   #expected_balls={"red":2,"green":1},
                   #num_balls_drawn=5,
                   #num_experiments=10)
-hat1.draw(0)
-print(hat1.contents)
+hat1.draw(2)
 print(hat1.temp_lst)
+print(hat1.result)
 
 
