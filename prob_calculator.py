@@ -2,7 +2,6 @@ import copy
 import random
 
 class Hat:
-    
     #with each object created(hat), create a dictionary that has the ball color as key, and the number of balls with that particular color as value
     def __init__(self,**kwargs):
         #contents is list of items represent each ball in the hat
@@ -23,11 +22,20 @@ class Hat:
         if self.balls > len(self.contents):
             return False
         else:
+            #we are gonna use this temporaty content list, to draw the balls from. without touchng the original contents
+            self.temp_lst = copy.deepcopy(self.contents)
             #shuffle the hat's contents
-            random.shuffle(self.contents)
+            random.shuffle(self.temp_lst)
             #remove random element from the contents list for the amouts of balls to draw.
+            #need a way to keep track of the balls drawn (result) for each expirement
+            self.result = []
             for item in range(balls):
-                self.contents.pop(random.randint(0,len(self.contents)-1))
+                self.temp_lst.pop(random.randint(0,len(self.temp_lst)-1))
+                
+                #print(self.result)
+                #print(self.contents)
+                
+                
             
     #represent the object's dictionary when printing the object         
     def __repr__(self):
@@ -39,14 +47,24 @@ class Hat:
     
     
 
-    def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
-        pass
+def experiment(hat, expected_balls, num_balls_drawn, num_experiments): 
+    for experiment in range(num_experiments):
+        #probability = (hat.dictionary["red"]+hat.dictionary["green"]) / len(hat.contents)
+        hat.draw(num_balls_drawn)
+        if len(hat.contents) < 1: break
+        print(probability)
     
-hat1 = Hat(yellow=3, blue=2, green=6)
+    
+hat1 = Hat(black=6, red=4, green=3)
 hat2 = Hat(red=5, orange=4)
 hat3 = Hat(red=5, orange=4, black=1, blue=0, pink=2, striped=9)
 
+#probability = experiment(hat=hat1,
+                  #expected_balls={"red":2,"green":1},
+                  #num_balls_drawn=5,
+                  #num_experiments=10)
+hat1.draw(0)
 print(hat1.contents)
-hat1.draw(5)
-print(hat1.contents)
+print(hat1.temp_lst)
+
 
