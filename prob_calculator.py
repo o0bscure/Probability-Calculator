@@ -22,22 +22,23 @@ class Hat:
         if self.balls > len(self.contents):
             return False
         else:
-            #we are gonna use this temporaty content list, to draw the balls from. without touchng the original contents
-            self.temp_lst = copy.deepcopy(self.contents)
+            #create a copy of the original hat's content
+            self.original=copy.deepcopy(self.contents)
             #shuffle the hat's contents
-            random.shuffle(self.temp_lst)
+            random.shuffle(self.contents)
             #remove random element from the contents list for the amouts of balls to draw.
             #need a way to keep track of the balls drawn (result) for each expirement
             self.result = []
             for i in range(balls):
                 #pick a randome index to remove an item from the hat
-                random_index = random.randint(0,len(self.temp_lst)-1)
+                random_index = random.randint(0,len(self.contents)-1)
                 #add that item to the results list
-                self.result.append(self.temp_lst[random_index])
+                self.result.append(self.contents[random_index])
                 #remove that item from the hat
-                self.temp_lst.pop(random_index)
-            if self.balls > len(self.temp_lst):
-                self.temp_lst = self.contents
+                self.contents.pop(random_index)
+            if self.balls > len(self.contents):
+                self.contents = self.original
+            return self.result
                 
     #represent the object's dictionary when printing the object         
     def __repr__(self):
@@ -53,16 +54,20 @@ def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
     #need to check if the desired balls exist in the results after each draw(), keep track of how many times you got the desired result(M?) 
     m = 0
     probability = 0
+    #run expirements
     for experiment in range(num_experiments):
-        #probability = (hat.dictionary["red"]+hat.dictionary["green"]) / len(hat.contents)
+        #place holder list to store succesful experiment
+        place_holder = []
+        #draw balls
         hat.draw(num_balls_drawn)
+        #check if the result of the draw has the required outcome (the keys with its correspondent values)
         for key,value in expected_balls.items():
-            
-        #keeps track if the desired result accurred
-        if hat.result.count("red") >= 2 and hat.result.count("green") >=1:
+            if hat.result.count(key) >= value:
+                place_holder.append((key,value))
+        if len(place_holder) == len(expected_balls):
+            print(place_holder)
             m = m + 1
-        if len(hat.temp_lst) < 1:
-            hat.temp_lst = hat.contents
+    #expermintal probability equation
     probability = m/num_experiments
     return probability
     
