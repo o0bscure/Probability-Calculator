@@ -9,6 +9,7 @@ class Hat:
         #dictionary will represent the hats content in key, value pairs
         self.dictionary = dict()
         #for each color and its amount of balls
+        self.result = []
         for k,v in kwargs.items():
             #adds items to the dictionary (to be used later in the repr function)
             self.dictionary[k] = v
@@ -20,7 +21,7 @@ class Hat:
         self.balls = balls
         #return false if the required numberof balls to draw is greater than the number of the contents inthe hat
         if self.balls > len(self.contents):
-            return False
+            self.result = self.contents
         else:
             #create a copy of the original hat's content
             self.original=copy.deepcopy(self.contents)
@@ -36,7 +37,7 @@ class Hat:
                 self.result.append(self.contents[random_index])
                 #remove that item from the hat
                 self.contents.pop(random_index)
-            if self.balls > len(self.contents):
+            if len(self.contents) < self.balls or len(self.contents) < 1:
                 self.contents = self.original
             return self.result
                 
@@ -65,20 +66,19 @@ def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
             if hat.result.count(key) >= value:
                 place_holder.append((key,value))
         if len(place_holder) == len(expected_balls):
-            print(place_holder)
             m = m + 1
     #expermintal probability equation
     probability = m/num_experiments
     return probability
     
-hat1 = Hat(black=6, red=4, green=3)
+hat1 = Hat(yellow=5,red=1,green=3,blue=9,test=1)
 hat2 = Hat(red=5, orange=4)
 hat3 = Hat(red=5, orange=4, black=1, blue=0, pink=2, striped=9)
 
 probability = experiment(hat=hat1,
-                  expected_balls={"red":2,"green":1},
-                  num_balls_drawn=5,
-                  num_experiments=2000)
+                  expected_balls={"yellow":2,"blue":3,"test":1},
+                  num_balls_drawn=20,
+                  num_experiments=100)
 print(probability)
 
 
